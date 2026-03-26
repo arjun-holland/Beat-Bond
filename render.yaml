@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: smart-spotify-api
+    env: node
+    region: ohio
+    plan: free
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && node src/server.js"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: REDIS_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        value: https://smart-spotify.vercel.app
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false

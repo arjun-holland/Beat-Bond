@@ -10,17 +10,21 @@
 -->
 
 ### 🏠 Dashboard Room
-![Dashboard](https://placehold.co/800x400?text=Dashboard+Screenshot+Here)
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/8a9e4901-9fda-4ee0-a6f1-a20ed378a116" />
+
+### Search 
+<img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/b24140d8-6dd4-4ce7-9cd9-a91096e6bad0" />
 
 ### 🎧 Listen Together Room
-![Listen Together Room](https://placehold.co/800x400?text=Room+Screenshot+Here)
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/00c77f60-858d-4363-8187-45d0c29ec84b" />
 
-*(Replace the placeholder image links above with your actual screenshot URLs!)*
+### Time Restricted
+<img width="1919" height="1078" alt="image" src="https://github.com/user-attachments/assets/60dafc6c-db2d-439f-9aa6-1e3050c2c88f" />
 
 ---
 
 ## ✨ Features
-- **User Authentication**: Secure Login and Registration (JWT based), plus Google OAuth 2.0.
+- **User Authentication**: Secure Login and Registration (JWT based).
 - **Music Streaming**: Seamless playback with play, pause, next, back, and volume controls.
 - **Listen Together Rooms**: Real-time synchronized playback using Socket.io. Join a room with friends via a unique code, listen to the exact same part of a song instantly, and chat!
 - **Playlists & Search**: Search for popular songs via YouTube API and curate custom playlists.
@@ -41,32 +45,6 @@ The application is structured around a scalable full-stack MERN architecture. He
 5. **Caching & Session Layer**: Redis infrastructure implemented to cache intense queries, store temporary authentication states, and rapidly serve shared room states.
 6. **External Integrations & Microservices**: Integrates heavily with third-party APIs: **Cloudinary** for scalable image hosting/delivery, **YouTube API** for vast music searching/scraping, **Google OAuth 2.0** for Single Sign-On, and an SMTP target for Mail delivery.
 
-### ASCII System Architecture (Terminal-based)
-```text
-======================================================================
-                         [ Client (Browser) ]
-                          React / Redux SPA
-======================================================================
-               |                                  |
-               | HTTP/REST Requests               | WebSockets (ws://)
-               v                                  v
-======================================================================
-                       BACKEND API LAYER
-  +-----------------------+              +-------------------------+
-  |    Express Server     |              |     Socket.io Server    |
-  |  (Auth, Users, Songs) |              |  (Rooms, Chat, Sync)    |
-  +-----------------------+              +-------------------------+
-======================================================================
-   |             |           |                        |
-   | Database    | Cache     | External APIs          | Sync State
-   v             v           v                        v
-+---------+  +-------+  +-----------------------+  +---------+
-| MongoDB |  | Redis |  | - Cloudinary (Images) |  | MongoDB |
-| (Atlas) |  |       |  | - YouTube API (Music) |  |         |
-+---------+  +-------+  | - Google OAuth (Auth) |  +---------+
-                        | - SMTP (Emails)       |
-                        +-----------------------+
-```
 
 ### System Architecture Diagram (Mermaid)
 ```mermaid

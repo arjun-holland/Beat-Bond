@@ -41,7 +41,34 @@ The application is structured around a scalable full-stack MERN architecture. He
 5. **Caching & Session Layer**: Redis infrastructure implemented to cache intense queries, store temporary authentication states, and rapidly serve shared room states.
 6. **External Integrations & Microservices**: Integrates heavily with third-party APIs: **Cloudinary** for scalable image hosting/delivery, **YouTube API** for vast music searching/scraping, **Google OAuth 2.0** for Single Sign-On, and an SMTP target for Mail delivery.
 
-### System Architecture Diagram
+### ASCII System Architecture (Terminal-based)
+```text
+======================================================================
+                         [ Client (Browser) ]
+                          React / Redux SPA
+======================================================================
+               |                                  |
+               | HTTP/REST Requests               | WebSockets (ws://)
+               v                                  v
+======================================================================
+                       BACKEND API LAYER
+  +-----------------------+              +-------------------------+
+  |    Express Server     |              |     Socket.io Server    |
+  |  (Auth, Users, Songs) |              |  (Rooms, Chat, Sync)    |
+  +-----------------------+              +-------------------------+
+======================================================================
+   |             |           |                        |
+   | Database    | Cache     | External APIs          | Sync State
+   v             v           v                        v
++---------+  +-------+  +-----------------------+  +---------+
+| MongoDB |  | Redis |  | - Cloudinary (Images) |  | MongoDB |
+| (Atlas) |  |       |  | - YouTube API (Music) |  |         |
++---------+  +-------+  | - Google OAuth (Auth) |  +---------+
+                        | - SMTP (Emails)       |
+                        +-----------------------+
+```
+
+### System Architecture Diagram (Mermaid)
 ```mermaid
 graph TD
     Client[React Frontend / Browser]
@@ -60,17 +87,17 @@ graph TD
         Email[SMTP Email Service]
     end
 
-    Client <-->|REST HTTP/HTTPS| Express
-    Client <-->|WebSockets (ws://)| SocketIO
+    Client <-->|"REST HTTP/HTTPS"| Express
+    Client <-->|"WebSockets ws://"| SocketIO
     
-    Express <-->|Mongoose Queries| MongoDB
-    Express <-->|Cache Access| Redis
-    SocketIO <-->|Persist Room State| MongoDB
+    Express <-->|"Mongoose Queries"| MongoDB
+    Express <-->|"Cache Access"| Redis
+    SocketIO <-->|"Persist Room State"| MongoDB
     
-    Express -->|Upload Images| Cloudinary
-    Express -->|Search Music| YouTube
-    Express -->|Authenticate Auth| Google
-    Express -->|Send Verifications| Email
+    Express -->|"Upload Images"| Cloudinary
+    Express -->|"Search Music"| YouTube
+    Express -->|"Authenticate Auth"| Google
+    Express -->|"Send Verifications"| Email
 ```
 
 ### Use Case Diagram

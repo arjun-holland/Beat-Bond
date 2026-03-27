@@ -175,6 +175,54 @@ erDiagram
     PLAYLIST }|--o{ SONG : contains
 ```
 
+### Activity Diagram (Listen Together Room Flow)
+```mermaid
+flowchart TD
+    Start([User opens App]) --> CheckAuth{Is Logged In?}
+    CheckAuth -->|No| Login[Redirect to Login]
+    Login --> Auth[Authenticate via JWT/Google]
+    Auth --> Dashboard[Load Dashboard]
+    CheckAuth -->|Yes| Dashboard
+    
+    Dashboard --> Action{Choose Action}
+    
+    Action -->|Play Music| Fetch[Fetch Music via YouTube API]
+    Fetch --> Stream[Stream Audio]
+    
+    Action -->|Listen Together| Room{Create or Join?}
+    Room -->|Create| CreateRoom[Host Generates Room ID]
+    CreateRoom --> Wait[Wait for friends & Sync sockets]
+    Room -->|Join| JoinRoom[Enter Room Code]
+    JoinRoom --> Connect[Connect to Host Socket]
+    
+    Wait --> Sync[Synchronize Playback State]
+    Connect --> Sync
+    
+    Sync --> End([Session Ends])
+```
+
+### State Chart Diagram (Socket.io Player State)
+```mermaid
+stateDiagram-v2
+    [*] --> Disconnected
+    Disconnected --> Connecting : Mount Component
+    Connecting --> Connected : Socket.io Handshake
+    Connected --> Authenticated : Provide Verify Token
+    
+    state Room_Session {
+        [*] --> Idle
+        Idle --> Buffering : Load Track Data
+        Buffering --> Playing : Audio Stream Ready
+        Playing --> Paused : Host triggers Pause
+        Paused --> Playing : Host triggers Play
+        Playing --> Seeking : Host scrubs slider
+        Seeking --> Playing : Sync exact timestamp across clients
+    }
+    
+    Authenticated --> Room_Session : Join Listen Together Room
+    Room_Session --> Disconnected : Leave Room / Web Timeout
+```
+
 ---
 
 ## 🚀 Run Locally

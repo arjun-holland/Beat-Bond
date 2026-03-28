@@ -29,7 +29,7 @@ const Login = () => {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
 
       <div className="relative z-10 w-full max-w-md p-8 pt-10 space-y-6 bg-white/10 backdrop-blur-md rounded-2xl sm:p-10 shadow-2xl border border-white/20">
-        <h2 className="text-3xl font-bold text-center text-white drop-shadow-md tracking-wide mb-8">Smart Spotify</h2>
+        <h2 className="text-3xl font-bold text-center text-white drop-shadow-md tracking-wide mb-8">Beat Bond</h2>
         
         {error && <div className="p-3 bg-red-500/80 backdrop-blur-sm border border-red-500/50 rounded text-center text-sm text-white">{error}</div>}
 

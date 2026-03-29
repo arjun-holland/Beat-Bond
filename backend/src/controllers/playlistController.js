@@ -80,7 +80,12 @@ export const addSongToPlaylist = async (req, res) => {
     }
 
     // Prevent duplicates by checking if the ID already exists in the playlist
-    const songExists = playlist.songs.some(s => (s._id === song._id || s.id === song.id));
+    const songExists = playlist.songs.some(s => {
+      const existingId = s._id ? s._id.toString() : s.id;
+      const targetId = song._id ? song._id.toString() : song.id;
+      return existingId === targetId;
+    });
+    
     if (songExists) {
       return res.status(400).json({ message: 'Song already in playlist' });
     }
@@ -114,7 +119,10 @@ export const removeSongFromPlaylist = async (req, res) => {
       return res.status(401).json({ message: 'Not authorized' });
     }
 
-    playlist.songs = playlist.songs.filter(s => s._id !== songId && s.id !== songId);
+    playlist.songs = playlist.songs.filter(s => {
+      const existingId = s._id ? s._id.toString() : s.id;
+      return existingId !== songId;
+    });
     await playlist.save();
     
     res.json(playlist);

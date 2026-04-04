@@ -4,7 +4,7 @@
 
 ---
 
-## 📸 Screenshots & Output
+## 📸 Screenshots & Output 
 <!-- 
   TODO: Add your project images below! You can drag and drop images directly into GitHub to generate links.
 -->

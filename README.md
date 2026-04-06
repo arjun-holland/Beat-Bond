@@ -46,7 +46,8 @@ The application is structured around a scalable full-stack MERN architecture. He
 6. **External Integrations & Microservices**: Integrates heavily with third-party APIs: **Cloudinary** for scalable image hosting/delivery, **YouTube API** for vast music searching/scraping, **Google OAuth 2.0** for Single Sign-On, and an SMTP target for Mail delivery.
 
 ### System Architecture  
-<img width="658" height="370" alt="image" src="https://github.com/user-attachments/assets/6c950a87-82dc-4f9e-ade8-c703ab6c67f7" />
+<img width="913" height="644" alt="image" src="https://github.com/user-attachments/assets/45a653ec-e354-4629-851b-73d2ad812fe0" />
+
 
 ### Use Case Diagram
 <img width="658" height="370" alt="image" src="https://github.com/user-attachments/assets/33285c0c-c402-4ba4-873a-2845ff53fb29" />

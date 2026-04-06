@@ -45,161 +45,26 @@ The application is structured around a scalable full-stack MERN architecture. He
 5. **Caching & Session Layer**: Redis infrastructure implemented to cache intense queries, store temporary authentication states, and rapidly serve shared room states.
 6. **External Integrations & Microservices**: Integrates heavily with third-party APIs: **Cloudinary** for scalable image hosting/delivery, **YouTube API** for vast music searching/scraping, **Google OAuth 2.0** for Single Sign-On, and an SMTP target for Mail delivery.
 
-
-### System Architecture Diagram (Mermaid)
-```mermaid
-graph TD
-    Client[React Frontend / Browser]
-    subgraph Backend API Layer
-        Express[Node.js / Express Server]
-        SocketIO[Socket.io WebSocket Server]
-    end
-    subgraph Data Layer
-        MongoDB[(MongoDB Atlas)]
-        Redis[(Redis Cache)]
-    end
-    subgraph External Services
-        Cloudinary[Cloudinary CDN]
-        YouTube[YouTube Data API]
-        Google[Google OAuth Provider]
-        Email[SMTP Email Service]
-    end
-
-    Client <-->|"REST HTTP/HTTPS"| Express
-    Client <-->|"WebSockets ws://"| SocketIO
-    
-    Express <-->|"Mongoose Queries"| MongoDB
-    Express <-->|"Cache Access"| Redis
-    SocketIO <-->|"Persist Room State"| MongoDB
-    
-    Express -->|"Upload Images"| Cloudinary
-    Express -->|"Search Music"| YouTube
-    Express -->|"Authenticate Auth"| Google
-    Express -->|"Send Verifications"| Email
-```
+### System Architecture  
+<img width="658" height="370" alt="image" src="https://github.com/user-attachments/assets/6c950a87-82dc-4f9e-ade8-c703ab6c67f7" />
 
 ### Use Case Diagram
-```mermaid
-flowchart LR
-    User([User])
-    
-    subgraph Beat-Bond Capabilities
-        auth(Authenticate / Google Login)
-        play(Stream & Control Music)
-        playlist(Create & Manage Playlists)
-        room(Create 'Listen Together' Room)
-        join(Join Friend's Room)
-        chat(Live Chat in Room)
-        timer(Trigger 5-minute Timeout)
-    end
-    
-    User --> auth
-    User --> play
-    User --> playlist
-    User --> room
-    User --> join
-    User --> chat
-    User --> timer
-```
+<img width="658" height="370" alt="image" src="https://github.com/user-attachments/assets/33285c0c-c402-4ba4-873a-2845ff53fb29" />
 
-### Database Entity-Relationship Diagram (ERD / Class)
-```mermaid
-erDiagram
-    USER ||--o{ ROOM : hosts
-    USER ||--o{ ROOM : participates
-    USER ||--o{ PLAYLIST : curates
-    USER }|--o{ SONG : history
 
-    USER {
-        ObjectId _id
-        String name
-        String email
-        String password
-        Boolean isEmailVerified
-        String profileImage
-        String role
-        Number totalListeningTime
-    }
+### Class Diagram
+<img width="803" height="417" alt="image" src="https://github.com/user-attachments/assets/2baf15ab-d1d1-41e3-b921-3dda7fd61585" />
 
-    ROOM {
-        ObjectId _id
-        String roomId
-        String name
-        ObjectId host
-        Boolean isPlaying
-        Number playbackPosition
-        Boolean isPrivate
-        String password
-    }
 
-    SONG {
-        ObjectId _id
-        String title
-        String artist
-        String audioUrl
-        String imageUrl
-        Number duration
-    }
+### Activity Diagram For Registration and Email Verification
+<img width="695" height="784" alt="image" src="https://github.com/user-attachments/assets/749f1f04-f47f-4647-acf7-4a996aa333a9" />
 
-    PLAYLIST {
-        ObjectId _id
-        String name
-        String description
-        String coverImage
-        ObjectId creator
-    }
+### Activity Diagram for Core Application Workflow     
+<img width="912" height="572" alt="image" src="https://github.com/user-attachments/assets/440a4536-04d3-467f-af82-3b7ee09c2c77" />
 
-    ROOM }|--o| SONG : currentSong
-    PLAYLIST }|--o{ SONG : contains
-```
+### SEQUENCE DIAGRAM      
+<img width="845" height="652" alt="image" src="https://github.com/user-attachments/assets/f3430a24-7adb-4a5e-a5cb-00fc907fa1bc" />
 
-### Activity Diagram (Listen Together Room Flow)
-```mermaid
-flowchart TD
-    Start([User opens App]) --> CheckAuth{Is Logged In?}
-    CheckAuth -->|No| Login[Redirect to Login]
-    Login --> Auth[Authenticate via JWT/Google]
-    Auth --> Dashboard[Load Dashboard]
-    CheckAuth -->|Yes| Dashboard
-    
-    Dashboard --> Action{Choose Action}
-    
-    Action -->|Play Music| Fetch[Fetch Music via YouTube API]
-    Fetch --> Stream[Stream Audio]
-    
-    Action -->|Listen Together| Room{Create or Join?}
-    Room -->|Create| CreateRoom[Host Generates Room ID]
-    CreateRoom --> Wait[Wait for friends & Sync sockets]
-    Room -->|Join| JoinRoom[Enter Room Code]
-    JoinRoom --> Connect[Connect to Host Socket]
-    
-    Wait --> Sync[Synchronize Playback State]
-    Connect --> Sync
-    
-    Sync --> End([Session Ends])
-```
-
-### State Chart Diagram (Socket.io Player State)
-```mermaid
-stateDiagram-v2
-    [*] --> Disconnected
-    Disconnected --> Connecting : Mount Component
-    Connecting --> Connected : Socket.io Handshake
-    Connected --> Authenticated : Provide Verify Token
-    
-    state Room_Session {
-        [*] --> Idle
-        Idle --> Buffering : Load Track Data
-        Buffering --> Playing : Audio Stream Ready
-        Playing --> Paused : Host triggers Pause
-        Paused --> Playing : Host triggers Play
-        Playing --> Seeking : Host scrubs slider
-        Seeking --> Playing : Sync exact timestamp across clients
-    }
-    
-    Authenticated --> Room_Session : Join Listen Together Room
-    Room_Session --> Disconnected : Leave Room / Web Timeout
-```
 
 ---
 
@@ -254,7 +119,7 @@ The app will now be available at `http://localhost:5173`.
 
 ---
 
-## 🌐 Deployment
+## 🌐 Deployment : https://beatbond-gb3c.onrender.com/#/login
 This application is fully containerized and production-ready.
 - **Backend API**: Hosted on [Render](https://render.com)
 - **Frontend App**: Deployed as a Vite Static Site on Render using HashRouter for seamless SPA routing.

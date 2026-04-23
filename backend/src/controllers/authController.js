@@ -35,7 +35,7 @@ export const registerUser = async (req, res) => {
       await redis.set(`verify_email:${verificationToken}`, user._id.toString(), 'EX', 24 * 60 * 60);
 
       // Send Email
-      const verifyUrl = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
+      const verifyUrl = `${process.env.CLIENT_URL}/#/verify-email/${verificationToken}`;
       const message = `
         <h1>Welcome to Smart Spotify</h1>
         <p>Please click the link below to verify your email address:</p>
